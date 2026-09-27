@@ -146,19 +146,34 @@ jobs:
             }'
           )
 
-          RESPONSE=$(curl -s \
-            -w "\n%{http_code}" \
-            -X POST "a427-176-221-143-53.ngrok-free.app/projects/evaluate-project-units" \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $BITASMBL_TOKEN" \
-            -d "$PAYLOAD")
-
+          RESPONSE=$(curl \
+          --silent \
+          --show-error \
+          --include \
+          --request POST \
+          "https://a427-176-221-143-53.ngrok-free.app/projects/evaluate-project-units" \
+          --header "Content-Type: application/json" \
+          --header "Authorization: Bearer $BITASMBL_TOKEN" \
+          --data "$PAYLOAD" \
+          --write-out "\n__HTTP_STATUS__%{http_code}"
+          )
+            
           STATUS=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | sed '$d')
 
-          echo "Response: $BODY"
+          echo "=== HTTP Status: $STATUS ==="
+          echo "=== Response Body ==="
+          echo "$BODY"
 
-          if [ "$STATUS" -ne 200 ]; then
-            echo "::error::$BODY"
-            exit 1
+          if [ "$STATUS" -lt 200 ] || [ "$STATUS" -ge 300 ]; then
+          echo "::error::Bitasmbl API returned HTTP $STATUS"
+
+          # Pretty-print JSON if possible
+          if echo "$BODY" | jq empty 2>/dev/null; then
+            echo "$BODY" | jq .
+          else
+            echo "$BODY"
+          fi
+
+          exit 1
           fi
