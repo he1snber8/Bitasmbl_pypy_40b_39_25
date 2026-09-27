@@ -1,0 +1,32 @@
+{
+  "projectApplicationLinkedRepoId": 25,
+  "projectApplicationId": 39,
+  "requirementId": 910,
+  "files": [
+    "backend/src/models/model.py"
+  ],
+  "activityMeta": [
+    {
+      "file": "backend/src/models/model.py",
+      "requirementId": 910,
+      "lastModified": "2026-09-27T11:41:42.989Z",
+      "activity": {
+        "editEvents": 2,
+        "activeDurationSec": 13,
+        "idleBreaks": 0,
+        "medianEditIntervalSec": 13,
+        "intervalSamples": [
+          13
+        ]
+      },
+      "diffStats": {
+        "linesAdded": 6,
+        "linesDeleted": 0
+      },
+      "sourceHints": {
+        "possiblePaste": false,
+        "suspiciousJump": false
+      }
+    }
+  ]
+}
